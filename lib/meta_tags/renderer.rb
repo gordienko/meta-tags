@@ -62,7 +62,8 @@ module MetaTags
       default_attributes = MetaTags.config.title_tag_attributes || {}
 
       if title.present?
-        tags << ContentTag.new(:title, {content: title}.with_defaults(default_attributes))
+        tag_attributes = { content: title }.with_defaults(meta_tags.extract(:title_custom_attributes).to_h)
+        tags << ContentTag.new(:title, tag_attributes.symbolize_keys.with_defaults(default_attributes))
       end
     end
 
