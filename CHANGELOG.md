@@ -1,12 +1,36 @@
 # Changelog
 
-## 2.21.0 (Development)
+## Development
+
+Changes:
+
+- Added Ruby on Rails 8.0 to the build matrix, removed Rails 6.0 ([321](https://github.com/kpumuk/meta-tags/pull/321))
+
+## 2.22.1 (September 20, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.22.0...v2.22.1)
+
+Changes:
+
+- Removed `meta-tags.gemspec` and `Rakefile` from the gem package ([312](https://github.com/kpumuk/meta-tags/pull/312))
+- Use GitHub actions to build, sign and publish the gem ([314](https://github.com/kpumuk/meta-tags/pull/314), [315](https://github.com/kpumuk/meta-tags/pull/315), [316](https://github.com/kpumuk/meta-tags/pull/316))
+
+## 2.22.0 (July 15, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.21.0...v2.22.0)
+
+Changes:
+
+- Added support for Ruby on Rails 7.2 ([303](https://github.com/kpumuk/meta-tags/pull/303))
+
+## 2.21.0 (April 11, 2024) [☰](https://github.com/kpumuk/meta-tags/compare/v2.20.0...v2.21.0)
+
+Bugfixes:
+
+- Removed a duplicated `title_tag_attributes` configuration from the initializer ([287](https://github.com/kpumuk/meta-tags/pull/287)).
 
 Changes:
 
 - Ruby older than 3.0 is no longer supported.
+- Added `truncate_on_natural_separator` configuration option to the initializer ([287](https://github.com/kpumuk/meta-tags/pull/287)).
 
-## 2.20.0 (December 26, 2023)
+## 2.20.0 (December 26, 2023) [☰](https://github.com/kpumuk/meta-tags/compare/v2.19.0...v2.20.0)
 
 Features:
 
