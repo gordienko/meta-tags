@@ -6,7 +6,7 @@ RSpec.configure do |config|
   end
 end
 
-RSpec.shared_context "with an initialized view", type: :view_helper do
+RSpec.shared_context 'with an initialized view', type: :view_helper do
   subject do
     assigns = {}
     controller = nil

@@ -36,7 +36,7 @@ module MetaTags
       render_custom(tags)
 
       rendered_tags = tags.tap(&:compact!).map { |tag| tag.render(view) }
-      view.safe_join rendered_tags, MetaTags.config.minify_output ? "" : "\n"
+      view.safe_join rendered_tags, MetaTags.config.minify_output ? '' : "\n"
     end
 
     protected
@@ -61,10 +61,10 @@ module MetaTags
       normalized_meta_tags[:full_title] = title
       default_attributes = MetaTags.config.title_tag_attributes || {}
 
-      if title.present?
-        tag_attributes = { content: title }.with_defaults(meta_tags.extract(:title_custom_attributes).to_h)
-        tags << ContentTag.new(:title, tag_attributes.symbolize_keys.with_defaults(default_attributes))
-      end
+      return unless title.present?
+
+      tag_attributes = { content: title }.with_defaults(meta_tags.extract(:title_custom_attributes).to_h)
+      tags << ContentTag.new(:title, tag_attributes.symbolize_keys.with_defaults(default_attributes))
     end
 
     # Renders icon(s) tag.
@@ -76,12 +76,12 @@ module MetaTags
       return unless icon
 
       # String? Value is an href
-      icon = [{href: icon}] if icon.is_a?(String)
+      icon = [{ href: icon }] if icon.is_a?(String)
       # Hash? Single icon instead of a list of icons
       icon = [icon] if icon.is_a?(Hash)
 
       icon.each do |icon_params|
-        icon_params = {rel: "icon", type: "image/x-icon"}.with_indifferent_access.merge(icon_params)
+        icon_params = { rel: 'icon', type: 'image/x-icon' }.with_indifferent_access.merge(icon_params)
         tags << Tag.new(:link, icon_params)
       end
     end
@@ -114,7 +114,7 @@ module MetaTags
     #
     def render_refresh(tags)
       refresh = meta_tags.extract(:refresh)
-      tags << Tag.new(:meta, "http-equiv" => "refresh", :content => refresh.to_s) if refresh.present?
+      tags << Tag.new(:meta, 'http-equiv' => 'refresh', :content => refresh.to_s) if refresh.present?
     end
 
     # Renders alternate link tags.
@@ -127,11 +127,11 @@ module MetaTags
 
       if alternate.is_a?(Hash)
         alternate.each do |hreflang, href|
-          tags << Tag.new(:link, rel: "alternate", href: href, hreflang: hreflang) if href.present?
+          tags << Tag.new(:link, rel: 'alternate', href: href, hreflang: hreflang) if href.present?
         end
       elsif alternate.is_a?(Array)
         alternate.each do |link_params|
-          tags << Tag.new(:link, {rel: "alternate"}.with_indifferent_access.merge(link_params))
+          tags << Tag.new(:link, { rel: 'alternate' }.with_indifferent_access.merge(link_params))
         end
       end
     end
@@ -147,8 +147,8 @@ module MetaTags
       href = open_search[:href]
       title = open_search[:title]
 
-      type = "application/opensearchdescription+xml"
-      tags << Tag.new(:link, rel: "search", type: type, href: href, title: title) if href.present?
+      type = 'application/opensearchdescription+xml'
+      tags << Tag.new(:link, rel: 'search', type: type, href: href, title: title) if href.present?
     end
 
     # Renders links.
@@ -156,7 +156,7 @@ module MetaTags
     # @param [Array<Tag>] tags a buffer object to store tag in.
     #
     def render_links(tags)
-      [:amphtml, :prev, :next, :image_src, :manifest].each do |tag_name|
+      %i[amphtml prev next image_src manifest].each do |tag_name|
         href = meta_tags.extract(tag_name)
         if href.present?
           @normalized_meta_tags[tag_name] = href
@@ -222,14 +222,14 @@ module MetaTags
     #
     def process_tree(tags, property, content, itemprop: nil, **opts)
       method = case content
-      when Hash
-        :process_hash
-      when Array
-        :process_array
-      else
-        iprop = itemprop
-        :render_tag
-      end
+               when Hash
+                 :process_hash
+               when Array
+                 :process_array
+               else
+                 iprop = itemprop
+                 :render_tag
+               end
       __send__(method, tags, property, content, itemprop: iprop, **opts)
     end
 
@@ -242,7 +242,7 @@ module MetaTags
     def process_hash(tags, property, content, **opts)
       itemprop = content.delete(:itemprop)
       content.each do |key, value|
-        if key.to_s == "_"
+        if key.to_s == '_'
           iprop = itemprop
           key = property
         else
@@ -250,10 +250,10 @@ module MetaTags
         end
 
         normalized_value = if value.is_a?(Symbol)
-          normalized_meta_tags[value]
-        else
-          value
-        end
+                             normalized_meta_tags[value]
+                           else
+                             value
+                           end
         process_tree(tags, key, normalized_value, **opts.merge(itemprop: iprop))
       end
     end

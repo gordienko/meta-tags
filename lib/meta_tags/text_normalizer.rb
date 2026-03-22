@@ -44,7 +44,7 @@ module MetaTags
       # serves the same purpose we could just as it to convert itself to str
       # and continue from there
       description = cleanup_string(description)
-      return "" if description.blank?
+      return '' if description.blank?
 
       truncate(description, MetaTags.config.description_limit)
     end
@@ -56,7 +56,7 @@ module MetaTags
     #
     def normalize_keywords(keywords)
       keywords = cleanup_strings(keywords)
-      return "" if keywords.blank?
+      return '' if keywords.blank?
 
       keywords.each(&:downcase!) if MetaTags.config.keywords_lowercase
       separator = cleanup_string MetaTags.config.keywords_separator, strip: false
@@ -107,12 +107,12 @@ module MetaTags
     # space characters squashed into a single space.
     #
     def cleanup_string(string, strip: true)
-      return "" if string.nil?
-      raise ArgumentError, "Expected a string or an object that implements #to_str" unless string.respond_to?(:to_str)
+      return '' if string.nil?
+      raise ArgumentError, 'Expected a string or an object that implements #to_str' unless string.respond_to?(:to_str)
 
       s = strip_tags(string.to_str)
       s = s.dup if s.frozen?
-      s.gsub!(/\s+/, " ")
+      s.gsub!(/\s+/, ' ')
       s.strip! if strip
 
       s
@@ -143,7 +143,7 @@ module MetaTags
         string,
         length: limit,
         separator: MetaTags.config.truncate_on_natural_separator,
-        omission: "",
+        omission: '',
         escape: true
       )
     end
@@ -155,7 +155,7 @@ module MetaTags
     # @param [String] separator separator that will be used to join array later.
     # @return [Array<String>] truncated array of strings.
     #
-    def truncate_array(string_array, limit = nil, separator = "")
+    def truncate_array(string_array, limit = nil, separator = '')
       return string_array if limit.nil? || limit <= 0
 
       length = 0
@@ -192,8 +192,8 @@ module MetaTags
           site_title, title, separator, global_limit
         )
 
-        title = (title_limited_length > 0) ? truncate_array(title, title_limited_length, separator) : [] # : Array[String]
-        site_title = (site_title_limited_length > 0) ? truncate(site_title, site_title_limited_length) : nil
+        title = title_limited_length > 0 ? truncate_array(title, title_limited_length, separator) : [] # : Array[String]
+        site_title = site_title_limited_length > 0 ? truncate(site_title, site_title_limited_length) : nil
       end
 
       [site_title, title]
@@ -206,7 +206,7 @@ module MetaTags
       main_length = main_title.map(&:length).sum + ((main_title.size - 1) * separator.length)
       main_limited_length = global_limit
 
-      secondary_limited_length = global_limit - ((main_length > 0) ? main_length + separator.length : 0)
+      secondary_limited_length = global_limit - (main_length > 0 ? main_length + separator.length : 0)
       secondary_limited_length = [0, secondary_limited_length].max
 
       if MetaTags.config.truncate_site_title_first
